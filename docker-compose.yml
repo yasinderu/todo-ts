@@ -1,0 +1,28 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "DATABASE_URL=postgres://postgres:password123@db:5432/todo npm run migrate up &&
+             npm run dev"
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - dev-db-todo:/var/lib/postgres
+    ports:
+      - "5432:5433"
+    environment:
+      - POSTGRES_DB=todo
+      - POSTGRES_PASSWORD=password123
+
+volumes:
+  dev-db-todo:
