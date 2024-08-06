@@ -1,14 +1,14 @@
-import pg from 'pg'
+import pg from "pg";
 
 class Pool {
-  _pool: pg.Pool
+  _pool: pg.Pool;
 
   constructor(dbConfig: pg.PoolConfig) {
-    this._pool = new pg.Pool(dbConfig)
+    this._pool = new pg.Pool(dbConfig);
 
-    this._pool.on('error', (err: Error, _client: any) => {
-      console.log(err)
-    })
+    this._pool.on("error", (err: Error, _client: any) => {
+      console.log(err);
+    });
   }
 
   connect(): Promise<pg.QueryResult> {
@@ -25,11 +25,11 @@ class Pool {
 }
 
 const pool = new Pool({
-  host: "db",
-    port: 5432,
-    database: "todo",
-    user: "postgres",
-    password: "password123",
-})
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+});
 
-export { pool }
+export { pool };
