@@ -9,7 +9,7 @@ export const authenticate = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
+    const token = req.headers?.authorization?.replace("Bearer ", "");
 
     if (!token) {
       throw new Error();
@@ -39,6 +39,8 @@ export const authorize = async (
     if (params.userId != userId) {
       throw new Error();
     }
+
+    console.log("hello world");
     next();
   } catch (error) {
     res.status(401).send({ message: "User is not authorized" });
