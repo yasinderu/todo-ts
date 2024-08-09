@@ -13,7 +13,7 @@ router.post("/auth/signup", async (req, res) => {
     const user = await UserRepo.findByUsername(req.body.username);
 
     if (user) {
-      return res.sendStatus(500);
+      return res.status(500).send({ message: "Username already exist" });
     }
     const pass = bcrypt.hashSync(password);
     const newUser = await UserRepo.create(username, pass);
@@ -42,7 +42,7 @@ router.post("/auth/signin", async (req, res) => {
       { id: user.id, username: user.username },
       JWT_SECRET,
       {
-        expiresIn: process.env.JWT_REFRESH_EXPIRATION,
+        expiresIn: process.env.JWT_REFRESH_EXPIRATION || "2h",
       }
     );
 
@@ -52,6 +52,7 @@ router.post("/auth/signin", async (req, res) => {
       token: `Bearer ${token}`,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({ message: error });
   }
 });

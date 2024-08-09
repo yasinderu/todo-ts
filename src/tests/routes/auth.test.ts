@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { authenticate, authorize } from "./auth";
+import { authenticate, authorize } from "../../routes/auth";
 
 describe("Auth middleware", () => {
   let mockRequest: Partial<Request>;

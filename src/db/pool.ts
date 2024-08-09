@@ -1,6 +1,6 @@
 import pg from "pg";
 
-class Pool {
+export class Pool {
   _pool: pg.Pool;
 
   constructor(dbConfig: pg.PoolConfig) {
